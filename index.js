@@ -39,12 +39,35 @@ async function run() {
             const plan = await planCollection.findOne(query)
             res.json(plan);
         });
+
+
         // add booking 
         app.post('/booking', async (req, res) => {
             const booking = req.body;
             const result = await bookingCollection.insertOne(booking);
             res.json(result)
-        })
+        });
+
+
+
+        // get all booking admin 
+
+
+        app.get('/allBookings', async (req, res) => {
+            const result = await bookingCollection.find({}).toArray();
+            res.send(result);
+        });
+
+        // delete bookings admin
+        app.delete("/deleteAllBooking/:id", async (req, res) => {
+            console.log(req.params.id);
+            const result = await bookingCollection.deleteOne({
+                _id: ObjectId(req.params.id),
+            });
+            res.send(result);
+        });
+
+
 
 
     }
